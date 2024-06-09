@@ -49,8 +49,12 @@ function ItemsPage() {
       imageUrl += "/" + subcategory.name;
     }
     imageUrl +=
-      "/" + name.replace(/ /g, "_") + "_" + color_available[0] + ".jpg";
-    console.log(imageUrl);
+      "/" +
+      name.replace(/ /g, "_").replace(/\//g, "&") +
+      "_" +
+      color_available[0].replace(/ /g, "_").replace(/\//g, "&") +
+      ".jpg";
+
     return (
       <>
         <div>
