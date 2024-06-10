@@ -4,6 +4,7 @@ import { useGetCategoriesQuery } from "../features/api/apiSlice";
 import { useGetSubcategoriesQuery } from "../features/api/apiSlice";
 import { useGetItemsQuery } from "../features/api/apiSlice";
 import DropdownList from "../components/DropdownList";
+import getImageUrl from "../utility/getImageUrl";
 
 function ItemsPage() {
   const {
@@ -40,27 +41,30 @@ function ItemsPage() {
 
   function Card({ item }) {
     const { name, category, subcategory, color_available } = item;
-    let imageUrl =
-      "https://storage.googleapis.com/ootd_image/" +
-      category.gender +
-      "/" +
-      category.name.replace(/ /g, "%20").replace(/&/g, "%26");
-    if (subcategory) {
-      imageUrl += "/" + subcategory.name;
-    }
-    imageUrl +=
-      "/" +
-      name.replace(/ /g, "_").replace(/\//g, "&") +
-      "_" +
-      color_available[0].replace(/ /g, "_").replace(/\//g, "&") +
-      ".jpg";
+    // let imageUrl =
+    //   "https://storage.googleapis.com/ootd_image/" +
+    //   category.gender +
+    //   "/" +
+    //   category.name.replace(/ /g, "%20").replace(/&/g, "%26");
+    // if (subcategory) {
+    //   imageUrl += "/" + subcategory.name;
+    // }
+    // imageUrl +=
+    //   "/" +
+    //   name.replace(/ /g, "_").replace(/\//g, "&") +
+    //   "_" +
+    //   color_available[0].replace(/ /g, "_").replace(/\//g, "&") +
+    //   ".jpg";
+    let imageUrl = getImageUrl(name, category, color_available[0], subcategory);
 
     return (
       <>
-        <div>
-          <h1>{item.name}</h1>
-          <img src={imageUrl} className="w-80 h-96" />
-        </div>
+        <Link to={`/items/${category.gender}/${item._id}`}>
+          <div>
+            <h1>{item.name}</h1>
+            <img src={imageUrl} className="w-80 h-96" />
+          </div>
+        </Link>
       </>
     );
   }
