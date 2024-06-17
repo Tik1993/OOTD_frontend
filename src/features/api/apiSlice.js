@@ -20,13 +20,20 @@ export const apiSlice = createApi({
       providesTags: ["Subcategories"],
       invalidatesTags: ["ItemDetail"],
     }),
-    getItemDeatil: builder.query({
+    getItemDetail: builder.query({
       query: (id) => `items/${id}`,
       providesTags: ["ItemDetail"],
     }),
     register: builder.mutation({
       query: (user) => ({
         url: "/users",
+        method: "POST",
+        body: user,
+      }),
+    }),
+    login: builder.mutation({
+      query: (user) => ({
+        url: "/auth/login",
         method: "POST",
         body: user,
       }),
@@ -38,6 +45,7 @@ export const {
   useGetItemsQuery,
   useGetCategoriesQuery,
   useGetSubcategoriesQuery,
-  useGetItemDeatilQuery,
+  useGetItemDetailQuery,
   useRegisterMutation,
+  useLoginMutation,
 } = apiSlice;

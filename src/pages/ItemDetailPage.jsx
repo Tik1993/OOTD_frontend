@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useGetItemDeatilQuery } from "../features/api/apiSlice";
+import { useGetItemDetailQuery } from "../features/api/apiSlice";
 import getImageUrl from "../utility/getImageUrl";
 
 function ItemDetailPage() {
   const { itemId } = useParams();
   console.log(itemId);
-  const { data: item, isLoading, isSuccess } = useGetItemDeatilQuery(itemId);
+  const { data: item, isLoading, isSuccess } = useGetItemDetailQuery(itemId);
   const [color, setColor] = useState("");
   let content;
 

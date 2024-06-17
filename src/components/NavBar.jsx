@@ -29,6 +29,11 @@ function NavBar() {
                 Register
               </Link>
             </li>
+            <li>
+              <Link to={"/login"} className="hover:text-blue-700">
+                Login
+              </Link>
+            </li>
           </ul>
         </div>
       </nav>
