@@ -3,6 +3,7 @@ import Layout from "./pages/Layout";
 import HomePage from "./pages/HomePage";
 import ItemsPage from "./pages/ItemsPage";
 import ItemDetailPage from "./pages/ItemDetailPage";
+import RegisterPage from "./pages/RegisterPage";
 
 const router = createBrowserRouter([
   {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
           { path: ":gender", element: <ItemsPage /> },
           { path: ":gender/:itemId", element: <ItemDetailPage /> },
         ],
+      },
+      {
+        path: "register",
+        element: <RegisterPage />,
       },
     ],
   },

@@ -24,6 +24,11 @@ function NavBar() {
             ))}
 
             <li>About</li>
+            <li>
+              <Link to={"/register"} className="hover:text-blue-700">
+                Register
+              </Link>
+            </li>
           </ul>
         </div>
       </nav>
