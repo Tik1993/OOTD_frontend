@@ -24,6 +24,13 @@ export const apiSlice = createApi({
       query: (id) => `items/${id}`,
       providesTags: ["ItemDetail"],
     }),
+    register: builder.mutation({
+      query: (user) => ({
+        url: "/user",
+        method: "POST",
+        body: user,
+      }),
+    }),
   }),
 });
 
@@ -32,4 +39,5 @@ export const {
   useGetCategoriesQuery,
   useGetSubcategoriesQuery,
   useGetItemDeatilQuery,
+  useRegisterMutation,
 } = apiSlice;
