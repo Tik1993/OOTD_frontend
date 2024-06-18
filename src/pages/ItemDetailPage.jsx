@@ -2,12 +2,18 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useGetItemDetailQuery } from "../features/api/apiSlice";
 import getImageUrl from "../utility/getImageUrl";
+import { useSelector } from "react-redux";
+import { selectCurrentUsername } from "../features/auth/authSlice";
 
 function ItemDetailPage() {
   const { itemId } = useParams();
-  console.log(itemId);
+  // console.log(itemId);
   const { data: item, isLoading, isSuccess } = useGetItemDetailQuery(itemId);
+  const user = useSelector(selectCurrentUsername);
   const [color, setColor] = useState("");
+  if (user) {
+    console.log(user);
+  }
   let content;
 
   useEffect(() => {
@@ -16,7 +22,7 @@ function ItemDetailPage() {
     }
   }, [item, isSuccess]);
   if (isSuccess) {
-    console.log(item);
+    // console.log(item);
     let imageUrl = getImageUrl(
       item.name,
       item.category,
