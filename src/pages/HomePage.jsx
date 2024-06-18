@@ -9,15 +9,12 @@ import { setToken } from "../features/auth/authSlice";
 
 function Homepage() {
   const dispatch = useDispatch();
-  const token = useSelector(selectCurrentToken);
-  const { data, error, isLoading, refetch } = useGetUserDetailQuery(token, {
-    skip: !token,
-  });
+  const { data, error, isLoading, refetch } = useGetUserDetailQuery();
   const [refreshToken] = useRefreshTokenMutation();
 
   useEffect(() => {
-    if (token) refetch();
-  }, [token]);
+    refetch();
+  }, []);
 
   useEffect(() => {
     const refresh = async () => {

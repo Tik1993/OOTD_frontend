@@ -5,6 +5,13 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:3000",
     credentials: "include",
+    prepareHeaders: (headers, { getState }) => {
+      const token = getState().auth.accessToken;
+      if (token) {
+        headers.set("authorization", `Bearer ${token}`);
+      }
+      return headers;
+    },
   }),
   tagTypes: ["Items", "Categories", "Subcategories", "ItemDetail"],
   endpoints: (builder) => ({
@@ -42,12 +49,9 @@ export const apiSlice = createApi({
       }),
     }),
     getUserDetail: builder.query({
-      query: (token) => ({
+      query: () => ({
         url: "/users/detail",
         method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       }),
       providesTags: ["UserDetail"],
     }),
