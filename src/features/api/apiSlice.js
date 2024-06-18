@@ -2,7 +2,10 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const apiSlice = createApi({
   reducerPath: "api",
-  baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:3000" }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: "http://localhost:3000",
+    credentials: "include",
+  }),
   tagTypes: ["Items", "Categories", "Subcategories", "ItemDetail"],
   endpoints: (builder) => ({
     getItems: builder.query({
@@ -48,6 +51,12 @@ export const apiSlice = createApi({
       }),
       providesTags: ["UserDetail"],
     }),
+    refreshToken: builder.mutation({
+      query: () => ({
+        url: "/auth/refresh",
+        method: "POST",
+      }),
+    }),
   }),
 });
 
@@ -59,4 +68,5 @@ export const {
   useRegisterMutation,
   useLoginMutation,
   useGetUserDetailQuery,
+  useRefreshTokenMutation,
 } = apiSlice;
