@@ -1,18 +1,39 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { setToken } from "../auth/authSlice";
+
+const baseQuery = fetchBaseQuery({
+  baseUrl: "http://localhost:3000",
+  credentials: "include",
+  prepareHeaders: (headers, { getState }) => {
+    const token = getState().auth.accessToken;
+    if (token) {
+      headers.set("authorization", `Bearer ${token}`);
+    }
+    return headers;
+  },
+});
+
+const baseQueryWithReauth = async (args, api, extraOptions) => {
+  let result = await baseQuery(args, api, extraOptions);
+  if (result.error && result.error.status === 403) {
+    console.log("Token expired, trying to refresh");
+    const refreshResult = await baseQuery(
+      { url: "/auth/refresh", method: "POST" },
+      api,
+      extraOptions
+    );
+    console.log("Refresh result", refreshResult);
+    if (refreshResult.data) {
+      api.dispatch(setToken(refreshResult.data.accessToken));
+      result = await baseQuery(args, api, extraOptions);
+    }
+  }
+  return result;
+};
 
 export const apiSlice = createApi({
   reducerPath: "api",
-  baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3000",
-    credentials: "include",
-    prepareHeaders: (headers, { getState }) => {
-      const token = getState().auth.accessToken;
-      if (token) {
-        headers.set("authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
+  baseQuery: baseQueryWithReauth,
   tagTypes: ["Items", "Categories", "Subcategories", "ItemDetail"],
   endpoints: (builder) => ({
     getItems: builder.query({
@@ -55,12 +76,6 @@ export const apiSlice = createApi({
       }),
       providesTags: ["UserDetail"],
     }),
-    refreshToken: builder.mutation({
-      query: () => ({
-        url: "/auth/refresh",
-        method: "POST",
-      }),
-    }),
   }),
 });
 
@@ -72,5 +87,4 @@ export const {
   useRegisterMutation,
   useLoginMutation,
   useGetUserDetailQuery,
-  useRefreshTokenMutation,
 } = apiSlice;
