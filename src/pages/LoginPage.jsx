@@ -1,8 +1,13 @@
 import React, { useRef } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import Form from "../components/Form";
 import { useLoginMutation } from "../features/api/apiSlice";
+import { setToken } from "../features/auth/authSlice";
 
 function LoginPage() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
   const person = { username: "", password: "" };
@@ -15,7 +20,9 @@ function LoginPage() {
       person.password = passwordRef.current.value;
       try {
         const result = await login(person).unwrap();
+        dispatch(setToken(result.accessToken));
         console.log("User logged", result);
+        navigate("/");
       } catch (err) {
         console.log("Failed to login user", err);
       }

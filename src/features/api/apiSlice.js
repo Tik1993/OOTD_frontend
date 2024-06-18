@@ -38,6 +38,16 @@ export const apiSlice = createApi({
         body: user,
       }),
     }),
+    getUserDetail: builder.query({
+      query: (token) => ({
+        url: "/users/detail",
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }),
+      providesTags: ["UserDetail"],
+    }),
   }),
 });
 
@@ -48,4 +58,5 @@ export const {
   useGetItemDetailQuery,
   useRegisterMutation,
   useLoginMutation,
+  useGetUserDetailQuery,
 } = apiSlice;
