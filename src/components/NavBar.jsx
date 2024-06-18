@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { selectCurrentUsername } from "../features/auth/authSlice";
 
 function NavBar() {
+  const username = useSelector(selectCurrentUsername);
+
   const gender = ["Men", "Women", "Unisex"];
   return (
     <>
@@ -24,16 +28,22 @@ function NavBar() {
             ))}
 
             <li>About</li>
-            <li>
-              <Link to={"/register"} className="hover:text-blue-700">
-                Register
-              </Link>
-            </li>
-            <li>
-              <Link to={"/login"} className="hover:text-blue-700">
-                Login
-              </Link>
-            </li>
+            {username ? (
+              <li>Wekcome, {username}</li>
+            ) : (
+              <>
+                <li>
+                  <Link to={"/register"} className="hover:text-blue-700">
+                    Register
+                  </Link>
+                </li>
+                <li>
+                  <Link to={"/login"} className="hover:text-blue-700">
+                    Login
+                  </Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </nav>

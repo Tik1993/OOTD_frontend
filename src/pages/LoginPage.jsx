@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Form from "../components/Form";
 import { useLoginMutation } from "../features/api/apiSlice";
-import { setToken } from "../features/auth/authSlice";
+import { setToken, setUsername } from "../features/auth/authSlice";
 
 function LoginPage() {
   const dispatch = useDispatch();
@@ -21,6 +21,7 @@ function LoginPage() {
       try {
         const result = await login(person).unwrap();
         dispatch(setToken(result.accessToken));
+        dispatch(setUsername(person.username));
         console.log("User logged", result);
         navigate("/");
       } catch (err) {
