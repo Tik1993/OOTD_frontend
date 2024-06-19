@@ -1,19 +1,25 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useGetItemDetailQuery } from "../features/api/apiSlice";
+import {
+  useGetItemDetailQuery,
+  useAddWishlistMutation,
+} from "../features/api/apiSlice";
 import getImageUrl from "../utility/getImageUrl";
 import { useSelector } from "react-redux";
-import { selectCurrentUsername } from "../features/auth/authSlice";
+import {
+  selectCurrentUsername,
+  selectCurrentUserid,
+} from "../features/auth/authSlice";
 
 function ItemDetailPage() {
   const { itemId } = useParams();
   // console.log(itemId);
   const { data: item, isLoading, isSuccess } = useGetItemDetailQuery(itemId);
-  const user = useSelector(selectCurrentUsername);
+  const username = useSelector(selectCurrentUsername);
+  const userId = useSelector(selectCurrentUserid);
+  const [addWishlist] = useAddWishlistMutation();
   const [color, setColor] = useState("");
-  if (user) {
-    console.log(user);
-  }
+
   let content;
 
   useEffect(() => {
@@ -29,6 +35,15 @@ function ItemDetailPage() {
       color,
       item.subcategory
     );
+    const handleAddWishlist = async (userId, itemId) => {
+      try {
+        const result = await addWishlist({ userId, itemId }).unwrap();
+        console.log("Add to favorite", result);
+      } catch (err) {
+        console.log("Failed to add to favorite", err);
+      }
+    };
+
     content = (
       <div className="flex p-5 bg-gray-50">
         <div className="w-2/5">
@@ -68,6 +83,16 @@ function ItemDetailPage() {
               ))}
             </ul>
           </div>
+          {userId ? (
+            <div className="flex">
+              <button
+                className="p-2 m-1 bg-blue-600 border-2 text-white rounded-md cursor-pointer hover:bg-blue-400"
+                onClick={() => handleAddWishlist(userId, itemId)}
+              >
+                Add to Wishlist
+              </button>
+            </div>
+          ) : null}
         </div>
       </div>
     );

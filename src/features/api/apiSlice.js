@@ -76,6 +76,13 @@ export const apiSlice = createApi({
       }),
       providesTags: ["UserDetail"],
     }),
+    addWishlist: builder.mutation({
+      query: ({ userId, itemId }) => ({
+        url: `/users/${userId}`,
+        method: "PATCH",
+        body: { itemId },
+      }),
+    }),
   }),
 });
 
@@ -87,4 +94,5 @@ export const {
   useRegisterMutation,
   useLoginMutation,
   useGetUserDetailQuery,
+  useAddWishlistMutation,
 } = apiSlice;
