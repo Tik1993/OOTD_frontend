@@ -83,6 +83,13 @@ export const apiSlice = createApi({
         body: { itemId },
       }),
     }),
+    addCloset: builder.mutation({
+      query: ({ userId, itemDetail }) => ({
+        url: `/users/${userId}`,
+        method: "PATCH",
+        body: { itemDetail },
+      }),
+    }),
   }),
 });
 
@@ -95,4 +102,5 @@ export const {
   useLoginMutation,
   useGetUserDetailQuery,
   useAddWishlistMutation,
+  useAddClosetMutation,
 } = apiSlice;
