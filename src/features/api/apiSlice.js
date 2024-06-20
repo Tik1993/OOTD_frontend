@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setToken } from "../auth/authSlice";
+import { setToken, logout } from "../auth/authSlice";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: "http://localhost:3000",
@@ -90,6 +90,23 @@ export const apiSlice = createApi({
         body: { itemDetail },
       }),
     }),
+    sendLogout: builder.mutation({
+      query: () => ({
+        url: "/auth/logout",
+        method: "POST",
+      }),
+      async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+        try {
+          //const { data } =
+          await queryFulfilled;
+          //console.log(data)
+          dispatch(logout());
+          dispatch(apiSlice.util.resetApiState());
+        } catch (err) {
+          console.log(err);
+        }
+      },
+    }),
   }),
 });
 
@@ -103,4 +120,5 @@ export const {
   useGetUserDetailQuery,
   useAddWishlistMutation,
   useAddClosetMutation,
+  useSendLogoutMutation,
 } = apiSlice;

@@ -5,9 +5,9 @@ import { selectCurrentToken } from "../features/auth/authSlice";
 
 function Homepage() {
   const token = useSelector(selectCurrentToken);
-  const { data, error, isLoading, refetch } = token
-    ? useGetUserDetailQuery()
-    : { data: null, error: null, isLoading: false, refetch: () => {} };
+  const { data, error, isLoading, refetch } = useGetUserDetailQuery(undefined, {
+    skip: !token,
+  });
 
   useEffect(() => {
     if (token) {
