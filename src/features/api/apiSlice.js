@@ -1,8 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { setToken, logout } from "../auth/authSlice";
 
+const baseUrl =
+  process.env.NODE_ENV === "production"
+    ? "https://ootd-backend.onrender.com"
+    : "http://localhost:3000";
+
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://ootd-backend.onrender.com",
+  baseUrl: baseUrl,
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.accessToken;
