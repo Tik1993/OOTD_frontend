@@ -75,8 +75,8 @@ export const apiSlice = createApi({
       }),
     }),
     getUserDetail: builder.query({
-      query: () => ({
-        url: "/users/detail",
+      query: (id) => ({
+        url: `/users/${id}/detail`,
         method: "GET",
       }),
       providesTags: ["UserDetail"],
