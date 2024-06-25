@@ -5,6 +5,7 @@ import ItemsPage from "./pages/ItemsPage";
 import ItemDetailPage from "./pages/ItemDetailPage";
 import RegisterPage from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
+import ClosetPage from "./pages/ClosetPage";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
           { path: ":gender", element: <ItemsPage /> },
           { path: ":gender/:itemId", element: <ItemDetailPage /> },
         ],
+      },
+      {
+        path: "Closet",
+        element: <ClosetPage />,
       },
       {
         path: "register",

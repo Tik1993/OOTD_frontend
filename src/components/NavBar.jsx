@@ -36,6 +36,11 @@ function NavBar() {
               <>
                 <li>Wekcome, {username}</li>
                 <li>
+                  <Link to={"/Closet"} className="hover:text-blue-700">
+                    Your Closet
+                  </Link>
+                </li>
+                <li>
                   {" "}
                   <button
                     onClick={() => sendLogout()}
