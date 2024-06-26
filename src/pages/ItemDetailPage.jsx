@@ -106,12 +106,12 @@ function ItemDetailPage() {
           {userId ? (
             <>
               <div className="flex space-x-2">
-                <button
+                {/* <button
                   className="p-2 m-1 bg-blue-600 border-2 text-white rounded-md cursor-pointer hover:bg-blue-400"
                   onClick={() => handleAddWishlist(userId, itemId)}
                 >
                   Add to Wishlist
-                </button>
+                </button> */}
                 <button
                   className="p-2 m-1 bg-blue-600 border-2 text-white rounded-md cursor-pointer hover:bg-blue-400"
                   onClick={() => handleAddCloset(userId, itemDetail)}
