@@ -1,55 +1,48 @@
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
-import {
-  useGetUserDetailQuery,
-  useGetItemsQuery,
-} from "../features/api/apiSlice";
-import { selectCurrentToken } from "../features/auth/authSlice";
-import { selectCurrentUserid } from "../features/auth/authSlice";
+import { Link } from "react-router-dom";
+import { useGetLatestItemsQuery } from "../features/api/apiSlice";
+
+import getImageUrl from "../utility/getImageUrl";
 
 function Homepage() {
-  const token = useSelector(selectCurrentToken);
-  const userId = useSelector(selectCurrentUserid);
   const {
-    data: userDeta,
-    error: userError,
-    isLoading: isUserDateLoading,
-    refetch,
-  } = useGetUserDetailQuery(userId, {
-    skip: !token,
-  });
+    data: items,
+    isLoading: itemIsLoading,
+    isSuccess: itemIsSuccess,
+  } = useGetLatestItemsQuery();
 
-  useEffect(() => {
-    if (token) {
-      refetch();
-    }
-  }, [token]);
-
-  if (isUserDateLoading) return <h1>Loading...</h1>;
+  if (itemIsLoading) return <h1>Loading...</h1>;
   // if (error) return <h1>Error: {error.data.message}</h1>;
 
-  let closetItmes = <h1>closet</h1>;
-  let wishlistItems;
+  function Card({ item }) {
+    const { name, category, subcategory, color_available } = item;
+    let imageUrl = getImageUrl(name, category, color_available[0], subcategory);
 
-  let content = (
-    <div>
-      <section>
-        <h1>Latest Products</h1>
-      </section>
-      {closetItmes && (
-        <section>
-          <h1>Closest items</h1>
-          {closetItmes}
-        </section>
-      )}
-      {wishlistItems && (
-        <section>
-          <h1>Wishlist items</h1>
-          {wishlistItems}
-        </section>
-      )}
-    </div>
-  );
+    return (
+      <>
+        <Link to={`/items/${category.gender}/${item._id}`}>
+          <div>
+            <h1>{item.name}</h1>
+            <img src={imageUrl} className="w-80 h-96" />
+          </div>
+        </Link>
+      </>
+    );
+  }
+  let lastestItems;
+  if (itemIsSuccess) {
+    // console.log(items);
+    let lastestItemsGrid = items.map((item) => (
+      <Card key={item.name} item={item} />
+    ));
+    lastestItems = (
+      <>
+        <h1>Latest Products:</h1>
+        <div className="grid grid-cols-5 gap-4">{lastestItemsGrid}</div>
+      </>
+    );
+  }
+
+  let content = <div>{lastestItems && <section>{lastestItems}</section>}</div>;
 
   return <>{content}</>;
 }

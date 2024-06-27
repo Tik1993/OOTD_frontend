@@ -112,6 +112,9 @@ export const apiSlice = createApi({
         }
       },
     }),
+    getLatestItems: builder.query({
+      query: () => "items/latest",
+    }),
   }),
 });
 
@@ -126,4 +129,5 @@ export const {
   useAddWishlistMutation,
   useAddClosetMutation,
   useSendLogoutMutation,
+  useGetLatestItemsQuery,
 } = apiSlice;
