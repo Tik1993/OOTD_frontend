@@ -4,12 +4,13 @@ import { Link } from "react-router-dom";
 function DropdownList({ category, itemList, handleCat, handleSub }) {
   const [isExpand, setIsExpand] = useState(false);
   const listItems = (
-    <div className="w-44 bg-white border rounded-lg shadow   ">
-      <ul className="py-2 text-sm text-gray-700">
+    <div className=" bg-white border rounded-lg shadow   ">
+      <ul className="py-2 text-sm ">
         {itemList.map((s) => {
           return (
             <li
               key={s.name}
+              className="mb-1 text-gray-800 hover:bg-gray-100"
               onClick={() => handleSub({ subcategory: s.name, id: s._id })}
             >
               <button>{s.name}</button>
@@ -23,7 +24,7 @@ function DropdownList({ category, itemList, handleCat, handleSub }) {
     <>
       <div>
         <button
-          className="bg-blue-500"
+          className=""
           onClick={() => {
             setIsExpand(!isExpand);
             handleCat({ category: category.name, id: category._id });

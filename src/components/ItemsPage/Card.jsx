@@ -9,7 +9,7 @@ function Card({ item }) {
     <>
       <Link to={`/items/${category.gender}/${item._id}`}>
         <div>
-          <h1>{item.name}</h1>
+          <h1 className="mb-2 text-2xl font-bold">{item.name}</h1>
           <img src={imageUrl} className="w-80 h-96" />
         </div>
       </Link>

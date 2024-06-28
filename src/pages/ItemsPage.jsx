@@ -36,6 +36,12 @@ function ItemsPage() {
 
   let content;
 
+  const [isExpand, setIsExpand] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsExpand(!isExpand);
+  };
+
   // content when loading
   if (catIsLoading || subIsLoading) {
     content = <div>Loading...</div>;
@@ -48,11 +54,17 @@ function ItemsPage() {
       (category) => category.gender == gender
     );
     content = (
-      <div className="flex justify-between p-3 bg-gray-50">
-        <div className="md:w-1/5">
+      <div className="p-3 bg-gray-50 flex flex-col md:flex-row justify-between ">
+        <div className="md:w-1/5 px-3 py-4">
           {/* sidebar */}
-          <aside className="h-screen ">
-            <div className="h-full px-3 py-4 ">
+          <button className="md:hidden" onClick={toggleSidebar}>
+            {" "}
+            <span>Click to choose category:</span>
+          </button>
+          <aside
+            className={`${isExpand ? "block" : "hidden"} md:block md:h-screen`}
+          >
+            <div className="md:h-full  ">
               <ul className="space-y-2 font-medium">
                 {categoriesList.map((category) => {
                   let subcategoriesList = subcategories.filter(
@@ -73,6 +85,7 @@ function ItemsPage() {
                   } else {
                     listContent = (
                       <button
+                        className="text-left"
                         onClick={() => {
                           setCurrentCategory({
                             category: category.name,
@@ -92,7 +105,7 @@ function ItemsPage() {
                   return (
                     <li
                       key={category.name}
-                      className="flex items-center text-gray-800 hover:bg-gray-100"
+                      className="border-b-4 text-gray-800 hover:bg-gray-100"
                     >
                       {listContent}
                     </li>
@@ -103,7 +116,7 @@ function ItemsPage() {
           </aside>
         </div>
         {/* Item grid */}
-        <div className="flex-1">
+        <div className="flex-1 px-3 py-4">
           <Itemsgrid
             currentCategory={currentCategory}
             currentSubcategory={currentSubcategory}
