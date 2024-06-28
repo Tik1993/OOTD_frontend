@@ -40,7 +40,7 @@ function ClosetPage() {
   }
 
   function ClosetItem({ closetItem }) {
-    console.log(closetItem);
+    // console.log(closetItem);
     const { name, category, subcategory, color, size, quantity } = closetItem;
     let imageUrl = getImageUrl(name, category, color, subcategory);
     return (
@@ -57,8 +57,8 @@ function ClosetPage() {
     );
   }
   function ClosetGrid({ currentItems, items }) {
-    console.log(currentItems);
-    console.log(items);
+    // console.log(currentItems);
+    // console.log(items);
 
     return (
       <div className="">

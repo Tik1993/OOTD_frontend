@@ -23,7 +23,7 @@ function LoginPage() {
         dispatch(setToken(result.accessToken));
         dispatch(setUsername(result.username));
         dispatch(setUserid(result.userid));
-        console.log("User logged", result);
+        // console.log("User logged", result);
         navigate("/");
       } catch (err) {
         console.log("Failed to login user", err);
