@@ -61,12 +61,11 @@ function ItemDetailPage() {
     };
 
     content = (
-      <div className="flex p-5 bg-gray-50">
-        <div className="w-2/5">
-          <h1>Image</h1>
+      <div className="flex flex-col md:flex-row p-5 bg-gray-50">
+        <div className="md:w-2/5">
           <img src={imageUrl} className="w-80 h-96" />
         </div>
-        <div className="flex flex-col w-3/5">
+        <div className="flex flex-col md:w-3/5">
           <h1 className="text-3xl font-bold mb-3">{item.name}</h1>
           <h1 className="text-2xl font-bold mb-2">C$ {item.price}</h1>
           <div className="flex flex-col">
