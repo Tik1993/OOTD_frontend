@@ -3,8 +3,8 @@ import { useParams, Link } from "react-router-dom";
 import { useGetCategoriesQuery } from "../features/api/apiSlice";
 import { useGetSubcategoriesQuery } from "../features/api/apiSlice";
 import { useGetItemsQuery } from "../features/api/apiSlice";
-import DropdownList from "../components/DropdownList";
-import getImageUrl from "../utility/getImageUrl";
+import DropdownList from "../components/ItemsPage/DropdownList";
+import Itemsgrid from "../components/ItemsPage/Itemsgrid";
 
 function ItemsPage() {
   const {
@@ -35,62 +35,13 @@ function ItemsPage() {
   });
 
   let content;
+
+  // content when loading
   if (catIsLoading || subIsLoading) {
     content = <div>Loading...</div>;
   }
 
-  function Card({ item }) {
-    const { name, category, subcategory, color_available } = item;
-    // let imageUrl =
-    //   "https://storage.googleapis.com/ootd_image/" +
-    //   category.gender +
-    //   "/" +
-    //   category.name.replace(/ /g, "%20").replace(/&/g, "%26");
-    // if (subcategory) {
-    //   imageUrl += "/" + subcategory.name;
-    // }
-    // imageUrl +=
-    //   "/" +
-    //   name.replace(/ /g, "_").replace(/\//g, "&") +
-    //   "_" +
-    //   color_available[0].replace(/ /g, "_").replace(/\//g, "&") +
-    //   ".jpg";
-    let imageUrl = getImageUrl(name, category, color_available[0], subcategory);
-
-    return (
-      <>
-        <Link to={`/items/${category.gender}/${item._id}`}>
-          <div>
-            <h1>{item.name}</h1>
-            <img src={imageUrl} className="w-80 h-96" />
-          </div>
-        </Link>
-      </>
-    );
-  }
-  function Itemsgrid({ currentCategory, currentSubcategory, items }) {
-    let itemsList;
-    if (currentSubcategory["subcategory"]) {
-      itemsList = items.filter(
-        (item) =>
-          item.subcategory && item.subcategory._id === currentSubcategory.id
-      );
-    } else {
-      itemsList = items.filter(
-        (item) => item.category && item.category._id === currentCategory.id
-      );
-    }
-    let itemsgrid;
-    itemsgrid = itemsList.map((item) => <Card key={item.name} item={item} />);
-    return (
-      <>
-        <h1>Current Category:{currentCategory["category"]}</h1>
-        <h1>Current Subcategory:{currentSubcategory["subcategory"]}</h1>
-        <div className="grid grid-cols-4 gap-4">{itemsgrid}</div>
-      </>
-    );
-  }
-
+  // content when success
   if (catIsSuccess && subIsSuccess && itemIsSuccess) {
     // console.log(items);
     const categoriesList = categories.filter(
@@ -98,7 +49,7 @@ function ItemsPage() {
     );
     content = (
       <div className="flex justify-between p-3 bg-gray-50">
-        <div className="w-1/5">
+        <div className="md:w-1/5">
           {/* sidebar */}
           <aside className="h-screen ">
             <div className="h-full px-3 py-4 ">
@@ -152,7 +103,7 @@ function ItemsPage() {
           </aside>
         </div>
         {/* Item grid */}
-        <div className="w-4/5">
+        <div className="flex-1">
           <Itemsgrid
             currentCategory={currentCategory}
             currentSubcategory={currentSubcategory}
