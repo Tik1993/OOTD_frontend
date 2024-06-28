@@ -61,9 +61,9 @@ function ClosetPage() {
     console.log(items);
 
     return (
-      <div className="m-3 p-3">
-        <h1 className="mb-2 text-4xl font-bold ">Your Closet: </h1>
-        <div className="grid grid-cols-4 gap-4">
+      <div className="">
+        <h1 className="mb-2 text-2xl font-bold ">Your Closet: </h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
           {currentItems.map((item) => {
             const itemDetail = items.find((i) => i._id === item.itemId);
             console.log(itemDetail);
@@ -87,8 +87,8 @@ function ClosetPage() {
     const { username, currentItems } = userDetail;
 
     return (
-      <div>
-        <h1>Welcome back, {username}!</h1>
+      <div className="p-2">
+        <h1 className="mb-2 text-4xl font-bold ">Welcome back, {username}!</h1>
         <ClosetGrid currentItems={currentItems} items={items} />
       </div>
     );
